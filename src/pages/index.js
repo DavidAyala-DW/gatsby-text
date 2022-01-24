@@ -39,21 +39,12 @@ export default function IndexPage(props) {
 
   function getWindowDimensions() {
 
-    if( typeof window === "undefined" ){
+    const { innerWidth: width, innerHeight: height } = window;
 
-      const { innerWidth: width, innerHeight: height } = window;
-
-      return {
-        width,
-        height,
-      };
-
-    }else{
-      return {
-        width:0,
-        height:0,
-      }; 
-    }
+    return {
+      width,
+      height,
+    };
 
   }
 

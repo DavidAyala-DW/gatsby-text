@@ -6,7 +6,7 @@ dotenv.config({
 
 module.exports = {
   siteMetadata: {
-    siteUrl: 'https://www.tiv.co',
+    siteUrl: `https://www.gatsbyjs.com`,
     title: 'Tiv'
   },
   jsxRuntime: 'automatic',

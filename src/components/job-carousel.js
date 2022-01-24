@@ -36,10 +36,10 @@ export default function JobCarousel(props) {
 
         <div className="flex justify-center space-x-2 mt-9">
           <ButtonBack className="px-6 py-5 bg-gray-900 rounded">
-            <ChevronLeft />
+            {/* <ChevronLeft /> */}
           </ButtonBack>
           <ButtonNext className="px-6 py-5 bg-gray-900 rounded">
-            <ChevronRight />
+            {/* <ChevronRight /> */}
           </ButtonNext>
         </div>
       </CarouselProvider>

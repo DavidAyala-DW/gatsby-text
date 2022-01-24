@@ -5,10 +5,10 @@ import SocialNav from '@/components/social-nav'
 import tivLogo from '@/images/tiv-logo.svg'
 
 export default function Footer(props) {
-  const { data } = props
+  const { data, classNameCardAnimation } = props
 
   return (
-    <footer className="relative bg-gray-dark text-white/50">
+    <footer className="relative bg-gray-dark text-white/50" style={classNameCardAnimation}>
       <section className="py-4 lg:py-16 mb-1 border-t border-gray-800/80">
         <div className="container flex flex-col lg:grid grid-cols-3 justify-between items-center space-y-4 space-y-reverse lg:space-y-0 lg:gap-x-10">
           <Link to="/" className="justify-self-center">

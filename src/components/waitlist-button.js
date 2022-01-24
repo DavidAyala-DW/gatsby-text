@@ -17,7 +17,7 @@ export default function WaitlistButton(props) {
       disabled={!isReady}
       {...rest}
     >
-      {isReady ? children : <Loader className="w-12 mx-auto" title="Loading" />}
+      {/* {isReady ? children : <Loader className="w-12 mx-auto" title="Loading" />} */}
     </button>
   )
 }

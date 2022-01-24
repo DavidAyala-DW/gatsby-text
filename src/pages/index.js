@@ -19,22 +19,163 @@ import featureGlowSm from '@/images/feature-glow-small.svg'
 import ContentfulImage from '@/components/contentful-image'
 import metalCardBg from '@/images/metal-card-bg.svg'
 import ScrollTicker from '@/components/scroll-ticker'
+import { useEffect, useState } from 'react'
+
 
 export default function IndexPage(props) {
+
   const { data, location } = props
   const heroData = data.contentfulLandingHero
   const featuresData = data.contentfulLandingFeatureList
   const carouselData = data.contentfulLandingCarousel
   const metalCardData = data.contentfulLandingMetalCard
 
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+  const [screenType,setScreenType] = useState("");
+  const [scrollY,setScrollY] = useState(0);
+  const [maxScrollY,setMaxScrollY] = useState(0);
+  const [stopFixed,setStopFixed] = useState(false);
+
+  function getWindowDimensions() {
+    const { innerWidth: width, innerHeight: height } = window;
+
+    return {
+      width,
+      height,
+    };
+  }
+
+  const settingsAnimation = {
+    
+      desktop : {
+    
+        cards :{
+
+          // left : {transform: `perspective(760px) translate3d(${ 32*.004*(stopFixed ? maxScrollY : scrollY )}px,-${5*.004*(stopFixed ? maxScrollY : scrollY)}px,-${45*.004*(stopFixed ? maxScrollY : scrollY)}px)` },
+          // top : {transform: ` perspective(740px) translate3d(-${ 10*.004*(stopFixed ? maxScrollY : scrollY )}px,${24*.004*(stopFixed ? maxScrollY : scrollY)}px,-${45*.004*(stopFixed ? maxScrollY : scrollY)}px)` },
+          // rigth : {transform: `perspective(760px) translate3d(-${ 16*.004*(stopFixed ? maxScrollY : scrollY )}px,-${7*.004*(stopFixed ? maxScrollY : scrollY)}px,-${45*.004*(stopFixed ? maxScrollY : scrollY)}px)` },
+
+          left : {transform: `perspective(760px) translate3d(${ 19*.004*(stopFixed ? maxScrollY : scrollY )}px,-${19*.004*(stopFixed ? maxScrollY : scrollY)}px,-${45*.004*(stopFixed ? maxScrollY : scrollY)}px)` },
+          top : {transform: ` perspective(740px) translate3d(-${ 17*.004*(stopFixed ? maxScrollY : scrollY )}px,${17*.004*(stopFixed ? maxScrollY : scrollY)}px,-${45*.004*(stopFixed ? maxScrollY : scrollY)}px)` },
+          rigth : {transform: `perspective(760px) translate3d(-${ 12*.004*(stopFixed ? maxScrollY : scrollY )}px,-${12*.004*(stopFixed ? maxScrollY : scrollY)}px,-${45*.004*(stopFixed ? maxScrollY : scrollY)}px)` },
+
+        },
+
+        sections :{
+
+          primary : {
+            transform: `translateY(${stopFixed ? maxScrollY+"px" : 0 })`
+          },
+
+          others : {
+            transform: `translateY(${stopFixed ? 0 : 100}%) translateY(${ stopFixed ? maxScrollY : scrollY}px)`
+          }
+          
+        }
+
+      },
+
+      mobile : {
+
+        cards : {
+          
+          left :  {
+
+            transform: `perspective(360px) translateY( ${15*.004*scrollY }px ) translateX(-${30*.004*scrollY }px) translateZ(-${37*0.009*scrollY}px)`,
+            opacity : `${100 - scrollY*35*0.004 }%`
+
+          },
+          top :   {
+
+            transform: `perspective(360px) translateY( ${50*.004*scrollY }px )  translateX(${30*.004*scrollY }px) translateZ(-${37*0.009*scrollY}px)`,
+            opacity : `${100 - scrollY*35*0.004 }%`
+
+          },
+
+          rigth : {
+            transform: `perspective(360px) translateY( ${15*.004*scrollY }px )  translateX( ${45*.004*scrollY }px) translateZ(-${37*0.009*scrollY}px)`,
+            opacity : `${100 - scrollY*35*0.004 }%`
+          }
+
+        },
+
+        sections : {
+
+          primary: {
+            transform: `translateY(-${20*scrollY*0.004}px)`
+          },
+
+          others: {
+          }
+
+        }
+
+      }
+
+  }
+  
+  useEffect(() => {
+
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+
+  }, []);
+
+  useEffect( () => {
+
+    const handleScroll = () => setScrollY(Number(window.scrollY)) ;
+
+    window.addEventListener("scroll", handleScroll);  
+    
+    return () => window.removeEventListener("scroll",handleScroll);
+
+  },[])
+  
+  useEffect(() => {
+
+    const handleScreenType = windowDimensions.width>=1280 ? "desktop" : "mobile";
+    setScreenType(handleScreenType);
+    
+  }, [windowDimensions]);
+
+  useEffect(() => {
+
+    if(screenType == "desktop"){
+
+      if(scrollY >= 3000 && maxScrollY==0){
+
+        setMaxScrollY(scrollY < 3150 ? scrollY : 3150);
+        setStopFixed(true);
+
+      }else if(scrollY<maxScrollY){
+  
+        setMaxScrollY(0);
+        setStopFixed(false);  
+        
+      }
+
+    } 
+
+
+  } , [scrollY,screenType]);
+
   return (
-    <Layout currentPath={location.pathname} showTicker>
+
+    <Layout currentPath={location.pathname} showTicker classNameCardAnimation={ settingsAnimation?.[screenType]?.sections?.others ?? {} }>
+
       <Helmet>
         <title>Tiv</title>
       </Helmet>
 
       <main>
-        <section className="relative grid overflow-hidden pt-12 md:pt-6 pb-20 md:pb-24 lg:pb-0">
+        <section 
+          className={` ${ (!stopFixed && maxScrollY ==0 && screenType == "desktop") ? "fixed top-0 w-full" : "relative"} grid overflow-hidden pt-12 md:pt-6 pb-20 md:pb-24 lg:pb-0`}
+          style={settingsAnimation?.[screenType]?.sections?.primary ?? {}}
+        >
           <div
             className="both-span-full flex justify-center w-full overflow-hidden pointer-events-none"
             aria-hidden="true"
@@ -58,33 +199,58 @@ export default function IndexPage(props) {
             aria-label="Three orange, black, and white Tiv debit cards shooting toward a target made of concentric hexes"
           >
             <div className="relative container h-full xl:max-w-[1440px]">
-              <StaticImage
-                src="../images/tiv-card-from-top.png"
-                width={740}
-                className="!absolute -top-14 md:-top-48 xl:top-[-360px] -left-24 md:left-auto md:right-24 xl:right-36 w-[330px] md:w-[470px] xl:w-auto"
-                loading="eager"
-                placeholder="none"
-                alt=""
-                aria-hidden="true"
-              />
-              <StaticImage
-                src="../images/tiv-card-from-left.png"
-                width={760}
-                className="!absolute -bottom-24 md:bottom-0 lg:bottom-4 -left-40 md:-left-40 xl:-left-64 w-[400px] md:w-[480px] xl:w-auto"
-                loading="eager"
-                placeholder="none"
-                alt=""
-                aria-hidden="true"
-              />
-              <StaticImage
-                src="../images/tiv-card-from-right.png"
-                width={760}
-                className="!absolute -bottom-20 md:bottom-6 xl:-bottom-10 -right-24 md:-right-32 xl:-right-36 w-[350px] md:w-[450px] xl:w-auto"
-                loading="eager"
-                placeholder="none"
-                alt=""
-                aria-hidden="true"
-              />
+
+              <div
+                className='!absolute -top-14 md:-top-48 xl:top-[-360px] -left-24 md:left-auto md:right-24 xl:right-36 transition-all duration-100 ease-linear'
+                style={settingsAnimation?.[screenType]?.cards?.top ?? {}}
+              >
+                <StaticImage
+                  src="../images/tiv-card-from-top.png"
+                  width={740}
+                  className="w-[330px] md:w-[470px] xl:w-auto"
+                  loading="eager"
+                  placeholder="none"
+                  alt=""
+                  aria-hidden="true"
+                />
+
+              </div>
+
+              <div                 
+                className='!absolute -bottom-24 md:bottom-0 lg:bottom-4 -left-40 md:-left-40 xl:-left-64 transition-all duration-100 ease-linear'
+                style={settingsAnimation?.[screenType]?.cards?.left ?? {}}
+              >
+                <StaticImage
+                  src="../images/tiv-card-from-left.png"
+                  width={760}
+                  className="w-[400px] md:w-[480px] xl:w-auto"
+                  loading="eager"
+                  placeholder="none"
+                  alt=""
+                  aria-hidden="true"
+                />
+
+              </div>
+
+              <div
+                className='!absolute -bottom-20 md:bottom-6 xl:-bottom-10 -right-24 md:-right-32 xl:-right-36 transition-all duration-100  ease-linear'
+                style={settingsAnimation?.[screenType]?.cards?.rigth ?? {}}
+              >
+
+                <StaticImage
+                  src="../images/tiv-card-from-right.png"
+                  width={760}
+                  className="w-[350px] md:w-[450px] xl:w-auto"
+                  loading="eager"
+                  placeholder="none"
+                  alt=""
+                  aria-hidden="true"
+                />
+
+              </div>
+
+
+
             </div>
           </div>
 
@@ -93,7 +259,7 @@ export default function IndexPage(props) {
               {heroData.showBetaAccessTag && (
                 <p className="flex items-center justify-center mb-3 md:mb-4 uppercase font-bold text-xs tracking-[1px] leading-tight text-teal">
                   Beta Access{' '}
-                  <Dot className="ml-2.5 text-teal-light drop-shadow-current-sm relative" />
+                  {/* <Dot className="ml-2.5 text-teal-light drop-shadow-current-sm relative" /> */}
                 </p>
               )}
 
@@ -111,15 +277,17 @@ export default function IndexPage(props) {
                   {heroData.joinButtonLabel}
                 </WaitlistButton>
               </div>
-              <FormBgBlur
+              {/* <FormBgBlur
                 className="absolute -bottom-48 left-1/2 z-[-1] -translate-x-1/2"
                 aria-hidden="true"
-              />
+              /> */}
             </div>
           </div>
         </section>
 
-        <section className="container max-w-6xl md:-mt-24 pt-5">
+        <section className={"container max-w-6xl md:-mt-24 pt-5"} 
+          style= { settingsAnimation?.[screenType]?.sections?.others ?? {} }
+        >
           <h2 className="text-heading5 text-center tracking-[8px] mr-[-8px] mb-4 md:sr-only">
             {featuresData.title}
           </h2>
@@ -182,7 +350,9 @@ export default function IndexPage(props) {
           </ul>
         </section>
 
-        <section className="overflow-hidden pt-36 pb-10 md:pb-48 lg:pb-64">
+        <section className="overflow-hidden pt-36 pb-10 md:pb-48 lg:pb-64"
+          style= { settingsAnimation?.[screenType]?.sections?.others ?? {} }
+        >
           <div className="container md:max-w-3xl lg:max-w-4xl">
             <header className="relative z-10 mb-16 lg:mb-24 text-center">
               <h2 className="mb-2 text-heading2 font-bold uppercase cms-strong-orange">
@@ -205,7 +375,9 @@ export default function IndexPage(props) {
           </div>
         </section>
 
-        <section className="overflow-hidden mt-10 lg:mt-20">
+        <section className="overflow-hidden mt-10 lg:mt-20"
+          style= { settingsAnimation?.[screenType]?.sections?.others ?? {} }
+        >
           <ScrollTicker>
             <span className="inline-flex space-x-[1.2em]">
               {metalCardData.tickerText.map((text) => (

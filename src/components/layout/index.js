@@ -64,7 +64,7 @@ const headerFooterQuery = graphql`
 `
 
 export default function Layout(props) {
-  const { currentPath, children } = props
+  const { currentPath, children, classNameCardAnimation = {} } = props
   const data = useStaticQuery(headerFooterQuery)
 
   return (
@@ -78,7 +78,7 @@ export default function Layout(props) {
         ticker={data.contentfulTicker}
       />
       <div className="min-h-screen">{children}</div>
-      <Footer data={data.contentfulFooter} />
+      <Footer data={data.contentfulFooter} classNameCardAnimation={classNameCardAnimation}/>
     </>
   )
 }

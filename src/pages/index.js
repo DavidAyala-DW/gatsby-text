@@ -20,6 +20,7 @@ import ContentfulImage from '@/components/contentful-image'
 import metalCardBg from '@/images/metal-card-bg.svg'
 import ScrollTicker from '@/components/scroll-ticker'
 import { useEffect, useState } from 'react'
+import { window } from "browser-monads"; //npm i browser-monads
 
 
 export default function IndexPage(props) {

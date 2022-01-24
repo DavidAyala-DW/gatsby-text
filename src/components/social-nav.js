@@ -23,7 +23,7 @@ export default function SocialNav (props) {
     return matchingIconKey
       ? {
           ...link,
-          // label: <Icon className="w-auto h-[22px]" aria-label={link.label} />
+          label: <Icon className="w-auto h-[22px]" aria-label={link.label} />
         }
       : link
   })

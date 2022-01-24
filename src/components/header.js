@@ -61,12 +61,12 @@ export default function Header(props) {
                 className="grid items-center justify-center"
                 aria-hidden="true"
               >
-                {/* <MenuHex
+                <MenuHex
                   className={classNames(
                     'both-span-full',
                     isMenuOpen && 'drop-shadow-xl'
                   )}
-                /> */}
+                />
                 <span className="both-span-full flex justify-center text-orange scale-75">
                   <Burger
                     color="currentColor"

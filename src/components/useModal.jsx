@@ -8,7 +8,7 @@ function useModal(handleCancel,window) {
     const handleChange = e => {
         setState( {...state,speed:Number(e.target.value)} )
     };
-    
+
     useEffect(() => {
         const customConfig = JSON.parse(window.localStorage.getItem("customerSettings")) ?? {speed:4,animation:{desktop:"first",mobile:"first"}} ;
         setState(customConfig);
@@ -57,12 +57,12 @@ function useModal(handleCancel,window) {
                     <input 
                         type="range" 
                         min={1} 
-                        max={10} 
+                        max={12} 
                         step={1} 
                         defaultValue={state.speed} 
                         onMouseUp={handleChange}
                     />
-                    <p className={`${state.speed == 10 ? "text-green-500" : state.speed == 1 ? "text-red-500" : "text-gray-800" } `}> {` ${state.speed}`}</p>
+                    <p className={`${state.speed == 12 ? "text-green-500" : state.speed == 1 ? "text-red-500" : "text-gray-800" } `}> {` ${state.speed}`}</p>
                 </div>
 
 

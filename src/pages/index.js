@@ -20,7 +20,8 @@ import ContentfulImage from '@/components/contentful-image'
 import metalCardBg from '@/images/metal-card-bg.svg'
 import ScrollTicker from '@/components/scroll-ticker'
 import { useEffect, useState } from 'react'
-import { window } from "browser-monads"; //npm i browser-monads
+import { window } from "browser-monads";
+import useModal from "@/components/useModal" //npm i browser-monads
 
 
 export default function IndexPage(props) {
@@ -31,8 +32,16 @@ export default function IndexPage(props) {
   const carouselData = data.contentfulLandingCarousel
   const metalCardData = data.contentfulLandingMetalCard
 
+
+  const [modalActive, setModalActive] = useState(false);
+
+
+  const [customSettings,Modal] = useModal(setModalActive);
+
+
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
   const [screenType,setScreenType] = useState("");
+
   const [scrollY,setScrollY] = useState(0);
   const [maxScrollY,setMaxScrollY] = useState(0);
   const [stopFixed,setStopFixed] = useState(false);
@@ -54,13 +63,17 @@ export default function IndexPage(props) {
     
         cards :{
 
-          // left : {transform: `perspective(760px) translate3d(${ 32*.004*(stopFixed ? maxScrollY : scrollY )}px,-${5*.004*(stopFixed ? maxScrollY : scrollY)}px,-${45*.004*(stopFixed ? maxScrollY : scrollY)}px)` },
-          // top : {transform: ` perspective(740px) translate3d(-${ 10*.004*(stopFixed ? maxScrollY : scrollY )}px,${24*.004*(stopFixed ? maxScrollY : scrollY)}px,-${45*.004*(stopFixed ? maxScrollY : scrollY)}px)` },
-          // rigth : {transform: `perspective(760px) translate3d(-${ 16*.004*(stopFixed ? maxScrollY : scrollY )}px,-${7*.004*(stopFixed ? maxScrollY : scrollY)}px,-${45*.004*(stopFixed ? maxScrollY : scrollY)}px)` },
+          first : {
+            left : {transform: `perspective(760px) translate3d(${ 32*customSettings.speed/1000*(stopFixed ? maxScrollY : scrollY )}px,-${5*customSettings.speed/1000*(stopFixed ? maxScrollY : scrollY)}px,-${45*customSettings.speed/1000*(stopFixed ? maxScrollY : scrollY)}px)` },
+            top : {transform: ` perspective(740px) translate3d(-${ 10*customSettings.speed/1000*(stopFixed ? maxScrollY : scrollY )}px,${24*customSettings.speed/1000*(stopFixed ? maxScrollY : scrollY)}px,-${45*customSettings.speed/1000*(stopFixed ? maxScrollY : scrollY)}px)` },
+            rigth : {transform: `perspective(760px) translate3d(-${ 16*customSettings.speed/1000*(stopFixed ? maxScrollY : scrollY )}px,-${7*customSettings.speed/1000*(stopFixed ? maxScrollY : scrollY)}px,-${45*customSettings.speed/1000*(stopFixed ? maxScrollY : scrollY)}px)` },
+          },
 
-          left : {transform: `perspective(760px) translate3d(${ 19*.004*(stopFixed ? maxScrollY : scrollY )}px,-${19*.004*(stopFixed ? maxScrollY : scrollY)}px,-${45*.004*(stopFixed ? maxScrollY : scrollY)}px)` },
-          top : {transform: ` perspective(740px) translate3d(-${ 17*.004*(stopFixed ? maxScrollY : scrollY )}px,${17*.004*(stopFixed ? maxScrollY : scrollY)}px,-${45*.004*(stopFixed ? maxScrollY : scrollY)}px)` },
-          rigth : {transform: `perspective(760px) translate3d(-${ 12*.004*(stopFixed ? maxScrollY : scrollY )}px,-${12*.004*(stopFixed ? maxScrollY : scrollY)}px,-${45*.004*(stopFixed ? maxScrollY : scrollY)}px)` },
+          second : {
+            left : {transform: `perspective(760px) translate3d(${ 19*customSettings.speed/1000*(stopFixed ? maxScrollY : scrollY )}px,-${19*customSettings.speed/1000*(stopFixed ? maxScrollY : scrollY)}px,-${45*customSettings.speed/1000*(stopFixed ? maxScrollY : scrollY)}px)` },
+            top : {transform: ` perspective(740px) translate3d(-${ 17*customSettings.speed/1000*(stopFixed ? maxScrollY : scrollY )}px,${17*customSettings.speed/1000*(stopFixed ? maxScrollY : scrollY)}px,-${45*customSettings.speed/1000*(stopFixed ? maxScrollY : scrollY)}px)` },
+            rigth : {transform: `perspective(760px) translate3d(-${ 12*customSettings.speed/1000*(stopFixed ? maxScrollY : scrollY )}px,-${12*customSettings.speed/1000*(stopFixed ? maxScrollY : scrollY)}px,-${45*customSettings.speed/1000*(stopFixed ? maxScrollY : scrollY)}px)` },
+          }
 
         },
 
@@ -81,24 +94,49 @@ export default function IndexPage(props) {
       mobile : {
 
         cards : {
-          
-          left :  {
 
-            transform: `perspective(360px) translateY( ${15*.004*scrollY }px ) translateX(-${30*.004*scrollY }px) translateZ(-${37*0.009*scrollY}px)`,
-            opacity : `${100 - scrollY*35*0.004 }%`
+          first : {
+
+            left :  {
+
+              transform: `perspective(360px) translateY( ${15*customSettings.speed/1000*scrollY }px ) translateX(-${30*customSettings.speed/1000*scrollY }px) translateZ(-${37*0.009*scrollY}px)`,
+              opacity : `${100 - scrollY*35*customSettings.speed/1000 }%`
+  
+            },
+            top :   {
+  
+              transform: `perspective(360px) translateY( ${50*customSettings.speed/1000*scrollY }px )  translateX(${30*customSettings.speed/1000*scrollY }px) translateZ(-${37*0.009*scrollY}px)`,
+              opacity : `${100 - scrollY*35*customSettings.speed/1000 }%`
+  
+            },
+  
+            rigth : {
+              transform: `perspective(360px) translateY( ${15*customSettings.speed/1000*scrollY }px )  translateX( ${45*customSettings.speed/1000*scrollY }px) translateZ(-${37*0.009*scrollY}px)`,
+              opacity : `${100 - scrollY*35*customSettings.speed/1000 }%`
+            }
 
           },
-          top :   {
 
-            transform: `perspective(360px) translateY( ${50*.004*scrollY }px )  translateX(${30*.004*scrollY }px) translateZ(-${37*0.009*scrollY}px)`,
-            opacity : `${100 - scrollY*35*0.004 }%`
+          second:{
 
-          },
+            left :  {
 
-          rigth : {
-            transform: `perspective(360px) translateY( ${15*.004*scrollY }px )  translateX( ${45*.004*scrollY }px) translateZ(-${37*0.009*scrollY}px)`,
-            opacity : `${100 - scrollY*35*0.004 }%`
+              transform: `perspective(360px) translateY( -${30*customSettings.speed/1000*scrollY }px ) translateX(-${30*customSettings.speed/1000*scrollY }px) translateZ(-${37*0.009*scrollY}px)`
+  
+            },
+            top :   {
+  
+              transform: `perspective(360px) translateY( ${50*customSettings.speed/1000*scrollY }px )  translateX(${30*customSettings.speed/1000*scrollY }px) translateZ(-${37*0.009*scrollY}px)`
+  
+            },
+  
+            rigth : {
+              transform: `perspective(360px) translateY( -${30*customSettings.speed/1000*scrollY }px )  translateX( ${45*customSettings.speed/1000*scrollY }px) translateZ(-${37*0.009*scrollY}px)`
+            }
+
           }
+          
+
 
         },
 
@@ -147,11 +185,17 @@ export default function IndexPage(props) {
 
   useEffect(() => {
 
+    window.scrollTo(0,0);
+
+  }, [customSettings]);
+
+  useEffect(() => {
+
     if(screenType == "desktop"){
 
-      if(scrollY >= 3000 && maxScrollY==0){
+      if(scrollY >= 4*3500/customSettings.speed && maxScrollY==0){
 
-        setMaxScrollY(scrollY < 3150 ? scrollY : 3150);
+        setMaxScrollY(scrollY < 4*3500/customSettings.speed+150 ? scrollY : 4*3500/customSettings.speed+150);
         setStopFixed(true);
 
       }else if(scrollY<maxScrollY){
@@ -176,9 +220,25 @@ export default function IndexPage(props) {
 
       <main>
         <section 
-          className={` ${ (!stopFixed && maxScrollY ==0 && screenType == "desktop") ? "fixed top-0 w-full" : "relative"} grid overflow-hidden pt-12 md:pt-6 pb-20 md:pb-24 lg:pb-0`}
+          className={` ${ (!stopFixed && maxScrollY ==0 && screenType == "desktop") ? "fixed top-0 w-full" : "relative"} grid overflow-hidden pt-12 md:pt-6 pb-20 md:pb-24 lg:pb-0 select-none`}
           style={settingsAnimation?.[screenType]?.sections?.primary ?? {}}
         >
+          <div className='fixed right-4 md:right-16 top-32 w-[44px] h-[44px] cursor-pointer'
+
+            onClick={() => {
+              setModalActive(true);
+            }}
+
+          >
+
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#F15A29" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+
+          </div>
+
           <div
             className="both-span-full flex justify-center w-full overflow-hidden pointer-events-none"
             aria-hidden="true"
@@ -205,7 +265,7 @@ export default function IndexPage(props) {
 
               <div
                 className='!absolute -top-14 md:-top-48 xl:top-[-360px] -left-24 md:left-auto md:right-24 xl:right-36 transition-all duration-100 ease-linear'
-                style={settingsAnimation?.[screenType]?.cards?.top ?? {}}
+                style={settingsAnimation?.[screenType]?.cards?.[customSettings.animation[screenType]].top ?? {}}
               >
                 <StaticImage
                   src="../images/tiv-card-from-top.png"
@@ -221,7 +281,7 @@ export default function IndexPage(props) {
 
               <div                 
                 className='!absolute -bottom-24 md:bottom-0 lg:bottom-4 -left-40 md:-left-40 xl:-left-64 transition-all duration-100 ease-linear'
-                style={settingsAnimation?.[screenType]?.cards?.left ?? {}}
+                style={settingsAnimation?.[screenType]?.cards?.[customSettings.animation[screenType]].left ?? {}}
               >
                 <StaticImage
                   src="../images/tiv-card-from-left.png"
@@ -237,7 +297,7 @@ export default function IndexPage(props) {
 
               <div
                 className='!absolute -bottom-20 md:bottom-6 xl:-bottom-10 -right-24 md:-right-32 xl:-right-36 transition-all duration-100  ease-linear'
-                style={settingsAnimation?.[screenType]?.cards?.rigth ?? {}}
+                style={settingsAnimation?.[screenType]?.cards?.[customSettings.animation[screenType]].rigth ?? {}}
               >
 
                 <StaticImage
@@ -286,6 +346,11 @@ export default function IndexPage(props) {
               />
             </div>
           </div>
+          {      
+            modalActive && (
+              <Modal/>
+            ) 
+          }
         </section>
 
         <section className={"container max-w-6xl md:-mt-24 pt-5"} 
@@ -414,6 +479,7 @@ export default function IndexPage(props) {
             </header>
           </div>
         </section>
+
       </main>
     </Layout>
   )

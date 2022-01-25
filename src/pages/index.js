@@ -36,7 +36,7 @@ export default function IndexPage(props) {
   const [modalActive, setModalActive] = useState(false);
 
 
-  const [customSettings,Modal] = useModal(setModalActive);
+  const [customSettings,Modal] = useModal(setModalActive,window);
 
 
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());

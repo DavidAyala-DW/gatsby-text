@@ -1,16 +1,16 @@
 import React from 'react'
 import { useState, useEffect} from 'react'
 
-function useModal(handleCancel) {
+function useModal(handleCancel,window) {
 
-    const [state, setState] = useState( JSON.parse(localStorage.getItem("customerSettings")) ?? {speed:4,animation:{desktop:"first",mobile:"first"}} );
+    const [state, setState] = useState( JSON.parse(window.localStorage.getItem("customerSettings")) ?? {speed:4,animation:{desktop:"first",mobile:"first"}} );
 
     const handleChange = e => {
         setState( {...state,speed:Number(e.target.value)} )
     };
 
     useEffect(() => {
-        localStorage.setItem("customerSettings",JSON.stringify(state));
+        window.localStorage.setItem("customerSettings",JSON.stringify(state));
     }, [state]);
 
     const Modal = () => (

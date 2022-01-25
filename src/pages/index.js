@@ -58,9 +58,9 @@ export default function IndexPage(props) {
           // top : {transform: ` perspective(740px) translate3d(-${ 10*.004*(stopFixed ? maxScrollY : scrollY )}px,${24*.004*(stopFixed ? maxScrollY : scrollY)}px,-${45*.004*(stopFixed ? maxScrollY : scrollY)}px)` },
           // rigth : {transform: `perspective(760px) translate3d(-${ 16*.004*(stopFixed ? maxScrollY : scrollY )}px,-${7*.004*(stopFixed ? maxScrollY : scrollY)}px,-${45*.004*(stopFixed ? maxScrollY : scrollY)}px)` },
 
-          left : {transform: `perspective(760px) translate3d(${ 19*.004*(stopFixed ? maxScrollY : scrollY )}px,-${19*.004*(stopFixed ? maxScrollY : scrollY)}px,-${45*.004*(stopFixed ? maxScrollY : scrollY)}px)` },
-          top : {transform: ` perspective(740px) translate3d(-${ 17*.004*(stopFixed ? maxScrollY : scrollY )}px,${17*.004*(stopFixed ? maxScrollY : scrollY)}px,-${45*.004*(stopFixed ? maxScrollY : scrollY)}px)` },
-          rigth : {transform: `perspective(760px) translate3d(-${ 12*.004*(stopFixed ? maxScrollY : scrollY )}px,-${12*.004*(stopFixed ? maxScrollY : scrollY)}px,-${45*.004*(stopFixed ? maxScrollY : scrollY)}px)` },
+          left : {transform: `perspective(760px) translate3d(${ 19*.012*(stopFixed ? maxScrollY : scrollY )}px,-${19*.012*(stopFixed ? maxScrollY : scrollY)}px,-${45*.012*(stopFixed ? maxScrollY : scrollY)}px)` },
+          top : {transform: ` perspective(740px) translate3d(-${ 17*.012*(stopFixed ? maxScrollY : scrollY )}px,${17*.012*(stopFixed ? maxScrollY : scrollY)}px,-${45*.012*(stopFixed ? maxScrollY : scrollY)}px)` },
+          rigth : {transform: `perspective(760px) translate3d(-${ 12*.012*(stopFixed ? maxScrollY : scrollY )}px,-${12*.012*(stopFixed ? maxScrollY : scrollY)}px,-${45*.012*(stopFixed ? maxScrollY : scrollY)}px)` },
 
         },
 
@@ -84,20 +84,20 @@ export default function IndexPage(props) {
           
           left :  {
 
-            transform: `perspective(360px) translateY( ${15*.004*scrollY }px ) translateX(-${30*.004*scrollY }px) translateZ(-${37*0.009*scrollY}px)`,
-            opacity : `${100 - scrollY*35*0.004 }%`
+            transform: `perspective(360px) translateY( ${15*.005*scrollY }px ) translateX(-${30*.005*scrollY }px) translateZ(-${37*0.009*scrollY}px)`,
+            opacity : `${100 - scrollY*35*0.005 }%`
 
           },
           top :   {
 
-            transform: `perspective(360px) translateY( ${50*.004*scrollY }px )  translateX(${30*.004*scrollY }px) translateZ(-${37*0.009*scrollY}px)`,
-            opacity : `${100 - scrollY*35*0.004 }%`
+            transform: `perspective(360px) translateY( ${50*.005*scrollY }px )  translateX(${30*.005*scrollY }px) translateZ(-${37*0.009*scrollY}px)`,
+            opacity : `${100 - scrollY*35*0.005 }%`
 
           },
 
           rigth : {
-            transform: `perspective(360px) translateY( ${15*.004*scrollY }px )  translateX( ${45*.004*scrollY }px) translateZ(-${37*0.009*scrollY}px)`,
-            opacity : `${100 - scrollY*35*0.004 }%`
+            transform: `perspective(360px) translateY( ${15*.005*scrollY }px )  translateX( ${45*.005*scrollY }px) translateZ(-${37*0.009*scrollY}px)`,
+            opacity : `${100 - scrollY*35*0.005 }%`
           }
 
         },
@@ -105,7 +105,7 @@ export default function IndexPage(props) {
         sections : {
 
           primary: {
-            transform: `translateY(-${20*scrollY*0.004}px)`
+            transform: `translateY(-${20*scrollY*0.005}px)`
           },
 
           others: {
@@ -149,9 +149,9 @@ export default function IndexPage(props) {
 
     if(screenType == "desktop"){
 
-      if(scrollY >= 3000 && maxScrollY==0){
+      if(scrollY >= 1000 && maxScrollY==0){
 
-        setMaxScrollY(scrollY < 3150 ? scrollY : 3150);
+        setMaxScrollY(scrollY < 1150 ? scrollY : 1150);
         setStopFixed(true);
 
       }else if(scrollY<maxScrollY){

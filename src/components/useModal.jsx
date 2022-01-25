@@ -2,10 +2,9 @@ import React from 'react'
 import { useState, useEffect} from 'react'
 
 function useModal(handleCancel,window) {
-    const getItem = window.localStorage.getItem("customerSettings") ?? {} ;
     const stringifyTest = JSON.stringify({speed:4,animation:{desktop:"first",mobile:"first"}} )
-    const parseItem = getItem!={} ? JSON.parse( window.localStorage.getItem("customerSettings") ?? stringifyTest ) : {speed:4,animation:{desktop:"first",mobile:"first"}};
-    const [state, setState] = useState(parseItem);
+    const getItem = window.localStorage.getItem("customerSettings") ?? stringifyTest;
+    const [state, setState] = useState(JSON.parse(getItem));
 
     const handleChange = e => {
         setState( {...state,speed:Number(e.target.value)} )
